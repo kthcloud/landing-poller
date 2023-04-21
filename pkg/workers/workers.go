@@ -1,7 +1,7 @@
 package workers
 
 import (
-	"landing-api-poller/pkg/app"
+	"landing-poller/pkg/app"
 	"log"
 )
 

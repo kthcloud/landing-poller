@@ -1,10 +1,10 @@
 package main
 
 import (
-	"landing-api-poller/models"
-	"landing-api-poller/pkg/app"
-	"landing-api-poller/pkg/conf"
-	"landing-api-poller/pkg/workers"
+	"landing-poller/models"
+	"landing-poller/pkg/app"
+	"landing-poller/pkg/conf"
+	"landing-poller/pkg/workers"
 )
 
 func main() {

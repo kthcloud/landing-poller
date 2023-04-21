@@ -1,4 +1,4 @@
-module landing-api-poller
+module landing-poller
 
 go 1.20
 

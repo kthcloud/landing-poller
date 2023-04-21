@@ -3,7 +3,7 @@ package models
 import (
 	"context"
 	"fmt"
-	"landing-api-poller/pkg/conf"
+	"landing-poller/pkg/conf"
 	"log"
 	"time"
 

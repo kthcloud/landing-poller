@@ -7,7 +7,7 @@ import (
 	"gopkg.in/yaml.v3"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
-	"landing-api-poller/pkg/cloudstack"
+	"landing-poller/pkg/cloudstack"
 	"log"
 	"os"
 	"regexp"
