@@ -5,18 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb9d5a05-dddb-4bca-bef0-d96cad24aa2e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.github/ISSUE_TEMPLATE/bug_report.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.github/ISSUE_TEMPLATE/feature_request.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.github/workflows/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.github/workflows/docker-image.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/conf/conf.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/conf/conf.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/workers/capacities_worker.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/workers/capacities_worker.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/workers/stats_worker.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/workers/stats_worker.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/workers/status_worker.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/workers/status_worker.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/workers/workers.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/workers/workers.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/workers/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
