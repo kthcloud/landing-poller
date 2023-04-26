@@ -129,7 +129,7 @@ func CapacitiesWorker(ctx *app.Context) {
 		}
 
 		csCapacites, err := GetCsCapacites()
-		if err != nil {
+		if err != nil || csCapacites == nil {
 			csCapacites = &capacities.CsCapacities{
 				RAM: capacities.RamCapacities{
 					Used:  0,
@@ -145,7 +145,7 @@ func CapacitiesWorker(ctx *app.Context) {
 		gpuTotal := 0
 
 		hostCapacities, err := GetHostCapacities()
-		if err != nil {
+		if err != nil || hostCapacities == nil {
 			hostCapacities = make([]dto.HostCapacities, 0)
 		}
 
@@ -179,6 +179,6 @@ func CapacitiesWorker(ctx *app.Context) {
 			return
 		}
 
-		time.Sleep(60 * time.Second)
+		time.Sleep(CapacitiesSleep)
 	}
 }

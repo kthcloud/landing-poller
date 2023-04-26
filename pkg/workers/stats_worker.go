@@ -68,26 +68,31 @@ func StatWorker() {
 		k8sStats, err := GetK8sStats()
 		if err != nil {
 			log.Println(makeError(err))
+			time.Sleep(StatsSleep)
 			continue
 		}
 
-		collected := dto.Stats{
-			K8sStats: dto.K8sStats{
-				PodCount: k8sStats.PodCount,
-			},
+		if k8sStats == nil {
+			log.Println(makeError(fmt.Errorf("no k8s stats were found")))
+		} else {
+			collected := dto.Stats{
+				K8sStats: dto.K8sStats{
+					PodCount: k8sStats.PodCount,
+				},
+			}
+
+			statsDB := dto.StatsDB{
+				Stats:     collected,
+				Timestamp: time.Now().UTC(),
+			}
+
+			_, err = models.StatsCollection.InsertOne(context.TODO(), statsDB)
+			if err != nil {
+				log.Println(makeError(err))
+				continue
+			}
 		}
 
-		statsDB := dto.StatsDB{
-			Stats:     collected,
-			Timestamp: time.Now().UTC(),
-		}
-
-		_, err = models.StatsCollection.InsertOne(context.TODO(), statsDB)
-		if err != nil {
-			log.Println(makeError(err))
-			continue
-		}
-
-		time.Sleep(60 * time.Second)
+		time.Sleep(StatsSleep)
 	}
 }

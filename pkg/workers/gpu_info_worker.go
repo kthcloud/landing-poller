@@ -12,8 +12,9 @@ import (
 	"time"
 )
 
-func GetHostStatuses() ([]dto.HostStatus, error) {
-	outputs := make([]*dto.HostStatus, len(conf.Hosts))
+func GetHostGpuInfo() ([]dto.HostGPUInfo, error) {
+
+	outputs := make([]*dto.HostGPUInfo, len(conf.Hosts))
 
 	wg := sync.WaitGroup{}
 	mu := sync.Mutex{}
@@ -26,24 +27,28 @@ func GetHostStatuses() ([]dto.HostStatus, error) {
 				return fmt.Errorf("failed to get  for host %s. details: %s", host.IP.String(), err)
 			}
 
-			result, err := requestutils.DoRequest("GET", host.ApiURL("/status"), nil, nil)
+			result, err := requestutils.DoRequest("GET", host.ApiURL("/gpuInfo"), nil, nil)
 			if err != nil {
 				log.Println(makeError(err))
 				wg.Done()
 				return
 			}
 
-			var hostStatus dto.HostStatus
-			err = requestutils.ParseBody(result.Body, &hostStatus)
+			var hostGpus []dto.HostGPU
+			err = requestutils.ParseBody(result.Body, &hostGpus)
 			if err != nil {
 				log.Println(makeError(err))
 				wg.Done()
 				return
 			}
-			hostStatus.Name = conf.Hosts[idx].Name
+
+			hostGpuInfo := dto.HostGPUInfo{
+				Name: conf.Hosts[idx].Name,
+				GPUs: hostGpus,
+			}
 
 			mu.Lock()
-			outputs[idx] = &hostStatus
+			outputs[idx] = &hostGpuInfo
 			mu.Unlock()
 
 			wg.Done()
@@ -52,7 +57,7 @@ func GetHostStatuses() ([]dto.HostStatus, error) {
 
 	wg.Wait()
 
-	var result []dto.HostStatus
+	var result []dto.HostGPUInfo
 
 	for _, output := range outputs {
 		if output != nil {
@@ -63,38 +68,36 @@ func GetHostStatuses() ([]dto.HostStatus, error) {
 	return result, nil
 }
 
-func StatusWorker() {
+func GpuInfoWorker() {
 	makeError := func(err error) error {
-		return fmt.Errorf("status worker experienced an issue: %s", err)
+		return fmt.Errorf("gpu info worker experienced an issue: %s", err)
 	}
 
 	for {
-		hostsStatuses, err := GetHostStatuses()
+		hostGpuInfo, err := GetHostGpuInfo()
 		if err != nil {
 			log.Println(makeError(err))
-			time.Sleep(StatusSleep)
+			time.Sleep(GpuInfoSleep)
 			continue
 		}
 
-		if len(hostsStatuses) == 0 {
-			log.Println(makeError(fmt.Errorf("no hosts statuses received")))
+		if len(hostGpuInfo) == 0 {
+			log.Println(makeError(fmt.Errorf("no host gpu info was found")))
 		} else {
-			status := dto.Status{
-				Hosts: hostsStatuses,
+			gpuInfoDB := dto.GpuInfoDB{
+				GpuInfo: dto.GpuInfo{
+					HostGPUInfo: hostGpuInfo,
+				},
+				Timestamp: time.Now().UTC(),
 			}
 
-			statusDB := dto.StatusDB{
-				Status:    status,
-				Timestamp: time.Now(),
-			}
-
-			_, err = models.StatusCollection.InsertOne(context.TODO(), statusDB)
+			_, err = models.GpuInfoCollection.InsertOne(context.TODO(), gpuInfoDB)
 			if err != nil {
 				log.Println(makeError(err))
-				return
+				continue
 			}
 		}
 
-		time.Sleep(StatusSleep)
+		time.Sleep(GpuInfoSleep)
 	}
 }
