@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb9d5a05-dddb-4bca-bef0-d96cad24aa2e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/models/dto/gpu_info.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/dto/gpu_info_db.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/dto/host_gpu_info.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/workers/gpu_info_worker.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/workers/capacities_worker.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/workers/capacities_worker.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/workers/stats_worker.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/workers/stats_worker.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/workers/status_worker.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/workers/status_worker.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/workers/workers.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/workers/workers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/requestutils/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/requestutils/utils.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +20,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../Program Files/Go" />
+  <component name="GOROOT" url="file://$USER_HOME$/sdk/go1.20.3" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -60,9 +50,10 @@
     "WebServerToolWindowFactoryState": "false",
     "configurable..is.expanded": "true",
     "git-widget-placeholder": "main",
+    "go.do.not.show.old.sdk.for.debug.warning": "true",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "C:/repos/work/landing-api-v2",
+    "last_opened_file_path": "/home/emil/repos/work/landing-api-poller",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "settings.editor.selected.configurable": "preferences.pluginManager"

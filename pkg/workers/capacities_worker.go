@@ -17,7 +17,7 @@ import (
 	"time"
 )
 
-func GetCsCapacites() (*capacitiesModels.CsCapacities, error) {
+func GetCsCapacities() (*capacitiesModels.CsCapacities, error) {
 	makeError := func(err error) error {
 		return fmt.Errorf("failed to get cs capacities. details: %s", err)
 	}
@@ -31,8 +31,32 @@ func GetCsCapacites() (*capacitiesModels.CsCapacities, error) {
 		true,
 	)
 
-	csParams := csClient.SystemCapacity.NewListCapacityParams()
-	csResponse, err := csClient.SystemCapacity.ListCapacity(csParams)
+	// fetch correct zoneID
+	// zone.Name == "Flemingsberg"
+
+	zonesParams := csClient.Zone.NewListZonesParams()
+	zonesResponse, err := csClient.Zone.ListZones(zonesParams)
+	if err != nil {
+		err = makeError(err)
+		log.Println(err)
+		return nil, err
+	}
+
+	var zoneID string
+	for _, zone := range zonesResponse.Zones {
+		if zone.Name == "Flemingsberg" {
+			zoneID = zone.Id
+		}
+	}
+
+	if zoneID == "" {
+		err = makeError(fmt.Errorf("failed to find zone ID for zone 'Flemingsberg'"))
+		log.Println(err)
+		return nil, err
+	}
+
+	capacityParams := csClient.SystemCapacity.NewListCapacityParams()
+	capacityResponse, err := csClient.SystemCapacity.ListCapacity(capacityParams)
 
 	if err != nil {
 		err = makeError(err)
@@ -43,7 +67,11 @@ func GetCsCapacites() (*capacitiesModels.CsCapacities, error) {
 	var cpuCore capacitiesModels.CpuCoreCapacities
 	var ram capacitiesModels.RamCapacities
 
-	for _, capacity := range csResponse.Capacity {
+	for _, capacity := range capacityResponse.Capacity {
+		if capacity.Zoneid != zoneID {
+			continue
+		}
+
 		if capacity.Name == "CPU_CORE" {
 			cpuCore.Used = int(capacity.Capacityused)
 			cpuCore.Total = int(capacity.Capacitytotal)
@@ -128,9 +156,9 @@ func CapacitiesWorker(ctx *app.Context) {
 			break
 		}
 
-		csCapacites, err := GetCsCapacites()
-		if err != nil || csCapacites == nil {
-			csCapacites = &capacities.CsCapacities{
+		csCapacities, err := GetCsCapacities()
+		if err != nil || csCapacities == nil {
+			csCapacities = &capacities.CsCapacities{
 				RAM: capacities.RamCapacities{
 					Used:  0,
 					Total: 0,
@@ -155,12 +183,12 @@ func CapacitiesWorker(ctx *app.Context) {
 
 		collected := dto.Capacities{
 			RAM: dto.RamCapacities{
-				Used:  csCapacites.RAM.Used,
-				Total: csCapacites.RAM.Total,
+				Used:  csCapacities.RAM.Used,
+				Total: csCapacities.RAM.Total,
 			},
 			CpuCore: dto.CpuCoreCapacities{
-				Used:  csCapacites.CpuCore.Used,
-				Total: csCapacites.CpuCore.Total,
+				Used:  csCapacities.CpuCore.Used,
+				Total: csCapacities.CpuCore.Total,
 			},
 			GPU: dto.GpuCapacities{
 				Total: gpuTotal,
